@@ -1053,7 +1053,7 @@ def proses_testing_lvq(request):
         X_test,
         weight=bobot_akhir_lvq2_array,
         step=input_learning_rate, 
-        epsilon=input_window, 
+        # epsilon=input_window, 
         pengurangan_step=input_pengurangan_learning_rate, 
         minstep=input_minimum_learning_rate)
 
