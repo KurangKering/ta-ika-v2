@@ -26,7 +26,7 @@ def proses_pelatihan_lvq21(X, y, X_train, y_train, epochs, **options):
 def proses_testing_lvq2(X, y, data_testing, **options):
 
     np.random.seed(0)
-    lvqnet2 = algorithm.LVQ2(
+    lvqnet2 = algorithm.LVQ(
         n_inputs=X.shape[1], n_classes=np.unique(y).size, verbose=False, **options)
 
     return lvqnet2.predict(data_testing)
