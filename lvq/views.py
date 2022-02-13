@@ -230,10 +230,10 @@ def proses_hapus_data_awal(request):
     Dataset.objects.all().delete()
     table_name = Dataset.objects.model._meta.db_table
 
-    sql = "DELETE FROM SQLite_sequence WHERE name='{}';".format(table_name)
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        row = cursor.fetchone()
+    # sql = "DELETE FROM SQLite_sequence WHERE name='{}';".format(table_name)
+    # with connection.cursor() as cursor:
+    #     cursor.execute(sql)
+    #     row = cursor.fetchone()
 
     success = 1
     context = {
@@ -272,10 +272,10 @@ def proses_hapus_data_preprocessing(request):
     DatasetPreprocessing.objects.all().delete()
     table_name = DatasetPreprocessing.objects.model._meta.db_table
 
-    sql = "DELETE FROM SQLite_sequence WHERE name='{}';".format(table_name)
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        row = cursor.fetchone()
+    # sql = "DELETE FROM SQLite_sequence WHERE name='{}';".format(table_name)
+    # with connection.cursor() as cursor:
+    #     cursor.execute(sql)
+    #     row = cursor.fetchone()
 
     success = 1
     context = {
@@ -293,10 +293,10 @@ def proses_preprocessing(request):
     DatasetPreprocessing.objects.all().delete()
     table_name = DatasetPreprocessing.objects.model._meta.db_table
 
-    sql = "DELETE FROM SQLite_sequence WHERE name='{}';".format(table_name)
-    with connection.cursor() as cursor:
-        cursor.execute(sql)
-        row = cursor.fetchone()
+    # sql = "DELETE FROM SQLite_sequence WHERE name='{}';".format(table_name)
+    # with connection.cursor() as cursor:
+    #     cursor.execute(sql)
+    #     row = cursor.fetchone()
 
     model_instances = [DatasetPreprocessing(clump_thickness=dataset.clump_thickness,
                                             uniformity_of_cell_size=dataset.uniformity_of_cell_size,
