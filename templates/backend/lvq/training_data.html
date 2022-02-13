@@ -1,0 +1,688 @@
+{% extends "backend/base.html" %}
+{% load static %}
+{% block css %}
+<style>
+	.show-hide-content {
+		display: none;
+	}
+</style>
+{% endblock css %}
+{% block content %}
+<div class="nk-block-head nk-block-head-sm">
+	<div class="nk-block-between">
+		<div class="nk-block-head-content">
+			<h3 class="nk-block-title page-title">Pelatihan LVQ 1 dan LVQ 2.1</h3>
+			<div class="nk-block-des text-soft"></div>
+		</div>
+		<div class="nk-block-head-content">
+			<div class="toggle-wrap nk-block-tools-toggle">
+				<a href="{% static 'dash/#' %}" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+				<div class="toggle-expand-content" data-content="pageMenu">
+					<ul class="nk-block-tools g-3">
+						<li class="nk-block-tools-opt"></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="nk-block">
+	<div class="card card-bordered h-100">
+		<div class="card-inner">
+			<div class="card-head">
+				<h5 class="card-title">Parameter</h5>
+			</div>
+			
+			<table class="table table-bordered">
+				<tr>
+					<th>Jumlah Epochs</th>
+					<td>: {{ parameters.epochs }}</td>
+				</tr>
+				<tr>
+					<th>Jumlah Data Uji (Persen)</th>
+					<td>: {{ parameters.persen_uji }} %</td>
+				</tr>
+				<tr>
+					<th>Learning Rate</th>
+					<td>: {{ parameters.lr }}</td>
+				</tr>
+				<tr>
+					<th>Pengurangan Learning Rate</th>
+					<td>: {{ parameters.pengurangan_lr }}</td>
+				</tr>
+				<tr>
+					<th>Minimum Learning Rate</th>
+					<td>: {{ parameters.minimum_lr }}</td>
+				</tr>
+				<tr>
+					<th>Window</th>
+					<td>: {{ parameters.window }}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+</div>
+<div class="nk-block">
+	<div class="card card-bordered h-100">
+		<div class="card-inner">
+			<div class="card-head">
+				<h5 class="card-title">Table Data Latih</h5>
+			</div>
+			<table class="nowrap table" id="table-data-latih" >
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>CLUMP THICKNESS</th>
+						<th>Uniformity of Cell Size</th>
+						<th>Uniformity of Cell Shape</th>
+						<th>Marginal Adhesion    </th>
+						<th>Single Epithelial Cell Size</th>
+						<th>Bare Nuclei</th>
+						<th>Bland Chromatin </th>
+						<th>Normal Nucleoli</th>
+						<th>Mitoses</th>
+						<th>CLASS</th>
+
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	
+</div>
+<div class="nk-block">
+	<div class="card card-bordered h-100">
+		<div class="card-inner">
+			<div class="card-head">
+				<h5 class="card-title">Table Data Uji</h5>
+			</div>
+			<table class="nowrap table" id="table-data-uji" >
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>CLUMP THICKNESS</th>
+						<th>Uniformity of Cell Size</th>
+						<th>Uniformity of Cell Shape</th>
+						<th>Marginal Adhesion    </th>
+						<th>Single Epithelial Cell Size</th>
+						<th>Bare Nuclei</th>
+						<th>Bland Chromatin </th>
+						<th>Normal Nucleoli</th>
+						<th>Mitoses</th>
+						<th>CLASS</th>
+
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	
+</div>
+<div class="nk-block">
+	<div class="card card-bordered h-100">
+		<div class="card-inner">
+			<div class="card-head">
+				<h5 class="card-title">Bobot Awal</h5>
+				<div class="card-tools">
+					<button class="btn btn-info" id="btn-generate-bobot-awal">Generate Bobot Awal</button>
+
+				</div>
+			</div>
+			<table class="nowrap table" id="table-weight-awal" >
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>X1</th>
+						<th>X2</th>
+						<th>X3</th>
+						<th>X4</th>
+						<th>X5</th>
+						<th>X6</th>
+						<th>X7</th>
+						<th>X8</th>
+						<th>X9</th>
+						<th>Kelas</th>
+
+					</tr>
+				</thead>
+				
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="nk-block ">
+	<div class="card card-bordered h-100">
+		<div class="card-inner">
+			<div class="card-head">
+				<h5 class="card-title">Pelatihan LVQ 1 & LVQ 2.1</h5>
+			</div>
+			
+			<div class="card-inner">
+				<button class="btn-block btn btn-primary " id="btn-pelatihan-lvq">Mulai Pelatihan</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="nk-block show-hide-content">
+	<div class="card card-bordered h-100">
+		<div class="card-inner">
+			<div class="card-head">
+				<h5 class="card-title">Bobot Terbaik LVQ 1</h5>
+			</div>
+			<table class="nowrap table" id="table-weight-akhir-lvq2" >
+				<thead>
+					<tr>
+						<th>X1</th>
+						<th>X2</th>
+						<th>X3</th>
+						<th>X4</th>
+						<th>X5</th>
+						<th>X6</th>
+						<th>X7</th>
+						<th>X8</th>
+						<th>X9</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<div class="nk-block show-hide-content">
+	<div class="card card-bordered h-100">
+		<div class="card-inner">
+			<div class="card-head">
+				<h5 class="card-title">Bobot Terbaik LVQ 2.1</h5>
+			</div>
+			<table class="nowrap table" id="table-weight-akhir-lvq21" >
+				<thead>
+					<tr>
+						<th>X1</th>
+						<th>X2</th>
+						<th>X3</th>
+						<th>X4</th>
+						<th>X5</th>
+						<th>X6</th>
+						<th>X7</th>
+						<th>X8</th>
+						<th>X9</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}
+{% block js %}
+<script>
+
+	var total_seluruh_data = '{{ total_seluruh_data }}';
+
+	if (parseInt(total_seluruh_data) < 1 ) {
+		Swal.fire("Gagal!", "Mohon preprocessing data terlebih dahulu!", "error")
+		.then(() => {
+			window.location.href = "{% url 'lvq/preprocessing'  %}";
+		})
+		;
+	}
+	var $dTableDataLatih = makeDataTable('#table-data-latih', {
+		"scrollX": true,
+		'responsive': false,
+		"ajax": {
+			"url": '{% url "lvq/json_data_latih_uji" %}',
+			"dataSrc": "data_latih_context"
+		},
+		"columns": [
+		{ "data": "id" },
+		{ "data": "clump_thickness" },
+		{ "data": "uniformity_of_cell_size" },
+		{ "data": "uniformity_of_cell_shape" },
+		{ "data": "marginal_adhesion" },
+		{ "data": "single_epithelial_cell_size" },
+		{ "data": "bare_nuclei" },
+		{ "data": "bland_chromatin" },
+		{ "data": "normal_nucleoli" },
+		{ "data": "mitoses" },
+		{ "data": "kelas" },
+		],
+		pageLength: 5,
+
+		order : [],
+	});
+	var $dTableDataUji = makeDataTable('#table-data-uji', {
+		"scrollX": true,
+		'responsive': false,
+		"ajax": {
+			"url": '{% url "lvq/json_data_latih_uji" %}',
+			"dataSrc": "data_uji_context"
+		},
+		"columns": [
+		{ "data": "id" },
+		{ "data": "clump_thickness" },
+		{ "data": "uniformity_of_cell_size" },
+		{ "data": "uniformity_of_cell_shape" },
+		{ "data": "marginal_adhesion" },
+		{ "data": "single_epithelial_cell_size" },
+		{ "data": "bare_nuclei" },
+		{ "data": "bland_chromatin" },
+		{ "data": "normal_nucleoli" },
+		{ "data": "mitoses" },
+		{ "data": "kelas" },
+		],
+		pageLength: 5,
+
+		order : [],
+	});
+
+	var $dTableWeightAwal = makeDataTable('#table-weight-awal', {
+		"scrollX": true,
+		"responsive": false,
+		"ajax": {
+			"url": '{% url "lvq/json_bobot_awal" %}',
+			"dataSrc": "bobot_awal"
+		},
+		"columns": [
+		{ "data": "id" },
+		{ "data": "x1" },
+		{ "data": "x2" },
+		{ "data": "x3" },
+		{ "data": "x4" },
+		{ "data": "x5" },
+		{ "data": "x6" },
+		{ "data": "x7" },
+		{ "data": "x8" },
+		{ "data": "x9" },
+		{ "data": "kelas" },
+		],
+		"paging": false,
+
+		order : [],
+	});
+
+	var $dTableWeightTerbaikLVQ2 = makeDataTable('#table-weight-akhir-lvq2', {
+		"scrollX": true,
+		"responsive": false,
+		"columns": [
+		{ "title": "X1" },
+		{ "title": "X2" },
+		{ "title": "X3" },
+		{ "title": "X4" },
+		{ "title": "X5" },
+		{ "title": "X6" },
+		{ "title": "X7" },
+		{ "title": "X8" },
+		{ "title": "X9" },
+		],
+		"paging": false,
+
+		order : [],
+	});
+
+	var $dTableWeightTerbaikLVQ21 = makeDataTable('#table-weight-akhir-lvq21', {
+		"scrollX": true,
+		"responsive": false,
+		"dataSrc": "bobot_awal",
+		"columns": [
+		{ "title": "X1" },
+		{ "title": "X2" },
+		{ "title": "X3" },
+		{ "title": "X4" },
+		{ "title": "X5" },
+		{ "title": "X6" },
+		{ "title": "X7" },
+		{ "title": "X8" },
+		{ "title": "X9" },
+		],
+		"paging": false,
+
+		order : [],
+	});
+	var $dTableHasilLvq = makeDataTable('#table-hasil-lvq', {
+		"scrollX": true,
+		"columns": [
+		{ "data": "id" },
+		{ "data": "kelas" },
+		{ "data": "hasil_lvq2" },
+		{ "data": "hasil_lvq21" },
+		],
+		"paging": false,
+		order : [],
+		createdRow: (row, data, dataIndex, cells) => {
+			var correctColor = 'blue';
+			var wrongColor = '#fceae9';
+
+			if (data.kelas == data.hasil_lvq2) {
+			} else {
+				$("td:eq(2)", row).css("background-color", wrongColor);
+			}
+			if (data.kelas == data.hasil_lvq21) {
+			} else {
+				$("td:eq(3)", row).css("background-color", wrongColor);
+
+			}
+		}
+	});
+
+
+	$("#btn-generate-bobot-awal").click(function(event) {
+		showSpinner();
+		var URL = "{% url 'lvq/generate_bobot_awal' %}";
+		axios.get(URL)
+		.then(res => {
+			data = res.data;
+			$dTableWeightAwal.clear();
+			$dTableWeightAwal.rows.add(data.bobot_awal);
+			$dTableWeightAwal.draw();
+			$dTableWeightAwal.columns.adjust().draw();
+		})
+		.catch(() => {
+
+		})
+		.then(() => {
+			hideSpinner();
+
+		})
+
+	});
+
+
+	$("#btn-pelatihan-lvq").click(function(event) {
+		var URL = "{% url 'lvq/pelatihan_lvq' %}";
+		showSpinner();
+		$('.show-hide-content').css({'display': 'none'});
+
+
+		axios.get(URL)
+		.then((res) => {
+			
+			data = res.data;
+
+			$dTableWeightTerbaikLVQ2.clear();
+			$dTableWeightTerbaikLVQ2.rows.add(data.final_weight_lvq2);
+			$dTableWeightTerbaikLVQ2.draw();
+			$dTableWeightTerbaikLVQ2.columns.adjust().draw();
+
+			$dTableWeightTerbaikLVQ21.clear();
+			$dTableWeightTerbaikLVQ21.rows.add(data.final_weight_lvq21);
+			$dTableWeightTerbaikLVQ21.draw();
+			$dTableWeightTerbaikLVQ21.columns.adjust().draw();
+		})
+		.catch(() => {
+
+		})
+		.then(() => {
+			hideSpinner();
+			$('.show-hide-content').css({'display': 'block'});
+
+
+		});
+	});
+	$("#btn-pelatihan-lvq2").click(function(event) {
+		var URL = "{% url 'lvq/pelatihan_lvq2' %}";
+		showSpinner();
+
+		axios.get(URL)
+		.then((res) => {
+			
+			data = res.data;
+
+			$dTableWeightTerbaikLVQ2.clear();
+			$dTableWeightTerbaikLVQ2.rows.add(data.final_weight_lvq2);
+			$dTableWeightTerbaikLVQ2.draw();
+			$dTableWeightTerbaikLVQ2.columns.adjust().draw();
+
+		})
+		.catch(() => {
+
+		})
+		.then(() => {
+			hideSpinner();
+
+
+		});
+	});
+	$("#btn-pelatihan-lvq21").click(function(event) {
+		var URL = "{% url 'lvq/pelatihan_lvq21' %}";
+		showSpinner();
+
+		axios.get(URL)
+		.then((res) => {
+			
+			data = res.data;
+
+			$dTableWeightTerbaikLVQ21.clear();
+			$dTableWeightTerbaikLVQ21.rows.add(data.final_weight_lvq21);
+			$dTableWeightTerbaikLVQ21.draw();
+			$dTableWeightTerbaikLVQ21.columns.adjust().draw();
+
+		})
+		.catch(() => {
+
+		})
+		.then(() => {
+			hideSpinner();
+
+
+		});
+	});
+	var labelsChart = [];
+	var datasets = [];
+	$("#form-parameter").submit(function(e) {
+		e.preventDefault();
+		var URL = "{% url 'lvq/proses_perbandingan_lvq' %}";
+		var data = new FormData($(this)[0]);
+		showSpinner();
+		$('.show-hide-content').css({'display': 'none'});
+
+		axios.post(URL, data)
+		.then((res) => {
+			$('.show-hide-content').css({'display': 'block'});
+			
+			data = res.data;
+			$dTableDataLatih.clear();
+			$dTableDataLatih.rows.add(data.data_latih);
+			$dTableDataLatih.draw();
+			$dTableDataLatih.columns.adjust().draw();
+
+			$dTableDataUji.clear();
+			$dTableDataUji.rows.add(data.data_uji);
+			$dTableDataUji.draw();
+			$dTableDataUji.columns.adjust().draw();
+
+			$dTableHasilLvq.clear();
+			$dTableHasilLvq.rows.add(data.table_hasil_lvq);
+			$dTableHasilLvq.draw();
+			$dTableHasilLvq.columns.adjust().draw();
+
+			$dTableWeightAwal.clear();
+			$dTableWeightAwal.rows.add(data.initial_weight_lvq2);
+			$dTableWeightAwal.draw();
+			$dTableWeightAwal.columns.adjust().draw();
+
+			$dTableWeightTerbaikLVQ2.clear();
+			$dTableWeightTerbaikLVQ2.rows.add(data.final_weight_lvq2);
+			$dTableWeightTerbaikLVQ2.draw();
+			$dTableWeightTerbaikLVQ2.columns.adjust().draw();
+
+
+			$dTableWeightTerbaikLVQ21.clear();
+			$dTableWeightTerbaikLVQ21.rows.add(data.final_weight_lvq21);
+			$dTableWeightTerbaikLVQ21.draw();
+			$dTableWeightTerbaikLVQ21.columns.adjust().draw();
+
+			$("#total-data-uji").text(data.total_data_uji);
+			$("#total-benar-lvq2").text(data.total_benar_lvq2);
+			$("#total-benar-lvq21").text(data.total_benar_lvq21);
+			$("#persentase-lvq2").text(data.akurasi_lvq2 + "%");
+			$("#persentase-lvq21").text(data.akurasi_lvq21 + "%");
+
+			for (var i = 0; i < data.total_data_uji; i++) {
+				labelsChart[i] = "Data Ke-" + (i + 1); 
+			}
+			dataChartPrediksi.labels = labelsChart;
+
+			datasets = [
+			data.kelas_data_uji_array, 
+			data.kelas_hasil_prediksi_lvq2, 
+			data.kelas_hasil_prediksi_lvq21
+			];
+			for (var i = 0; i < dataChartPrediksi.datasets.length; i++) {
+				dataChartPrediksi.datasets[i].data = datasets[i];
+			}
+			chartPrediksi();
+
+		})
+		.catch(() => {
+
+		})
+		.then(() => {
+			hideSpinner();
+
+
+		})
+	});
+
+
+	var dataChartPrediksi = {
+		labels: '',
+		dataUnit: 'Kelas',
+		lineTension: .2,
+		legend: true,
+		datasets: [{
+			label: "Kelas Aktual",
+			color: "#f4aaa4",
+			background: 'transparent',
+			data: []
+		}, {
+			label: "Kelas LVQ 1",
+			color: "#9cabff",
+			background: 'transparent',
+			data: []
+		}, {
+			label: "Kelas LVQ 2.1",
+			color: "#8feac5",
+			background: 'transparent',
+			data: []
+		}]
+	};
+	var chart;
+	function chartPrediksi(selector, set_data) {
+		var $selector = selector ? $(selector) : $('.line-chart-prediksi');
+		$selector.each(function () {
+			var $self = $(this),
+			_self_id = $self.attr('id'),
+			_get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
+
+			var selectCanvas = document.getElementById(_self_id).getContext("2d");
+			var chart_data = [];
+
+			for (var i = 0; i < _get_data.datasets.length; i++) {
+				chart_data.push({
+					label: _get_data.datasets[i].label,
+					tension: _get_data.lineTension,
+					backgroundColor: _get_data.datasets[i].background,
+					borderWidth: 2,
+					borderColor: _get_data.datasets[i].color,
+					pointBorderColor: _get_data.datasets[i].color,
+					pointBackgroundColor: '#fff',
+					pointHoverBackgroundColor: "#fff",
+					pointHoverBorderColor: _get_data.datasets[i].color,
+					pointBorderWidth: 2,
+					pointHoverRadius: 4,
+					pointHoverBorderWidth: 2,
+					pointRadius: 2,
+					pointHitRadius: 4,
+					data: _get_data.datasets[i].data
+				});
+			}
+
+			if (chart instanceof Chart) {
+				chart.data.datasets = chart_data;
+				chart.data.labels = _get_data.labels;
+				chart.update();
+			} else {
+				chart = new Chart(selectCanvas, {
+					type: 'line',
+					data: {
+						labels: _get_data.labels,
+						datasets: chart_data
+					},
+					options: {
+						legend: {
+							display: _get_data.legend ? _get_data.legend : false,
+							labels: {
+								boxWidth: 2,
+								padding: 20,
+								fontColor: '#6783b8'
+							}
+						},
+						maintainAspectRatio: false,
+						tooltips: {
+							enabled: true,
+							callbacks: {
+								title: function title(tooltipItem, data) {
+									return data['labels'][tooltipItem[0]['index']];
+								},
+								label: function label(tooltipItem, data) {
+									return  data.datasets[tooltipItem.datasetIndex].label + ' :' + data.datasets[tooltipItem.datasetIndex]['data'][tooltipItem['index']];
+								}
+							},
+							backgroundColor: '#eff6ff',
+							titleFontSize: 13,
+							titleFontColor: '#6783b8',
+							titleMarginBottom: 6,
+							bodyFontColor: '#9eaecf',
+							bodyFontSize: 12,
+							bodySpacing: 4,
+							yPadding: 10,
+							xPadding: 10,
+							footerMarginTop: 0,
+							displayColors: false
+						},
+						scales: {
+							yAxes: [{
+								display: true,
+								position: 'left',
+								ticks: {
+									beginAtZero: false,
+									fontSize: 12,
+									fontColor: '#9eaecf',
+									padding: 10
+								},
+								gridLines: {
+									color: NioApp.hexRGB("#526484", .2),
+									tickMarkLength: 0,
+									zeroLineColor: NioApp.hexRGB("#526484", .2)
+								}
+							}],
+							xAxes: [{
+								display: true,
+								ticks: {
+									fontSize: 12,
+									fontColor: '#9eaecf',
+									source: 'auto',
+									padding: 5,
+									reverse: false,
+								},
+								gridLines: {
+									color: "transparent",
+									tickMarkLength: 10,
+									zeroLineColor: NioApp.hexRGB("#526484", .2),
+									offsetGridLines: true
+								}
+							}]
+						}
+					}
+				});
+			}
+			
+		});
+	} 
+
+</script>	
+{% endblock js %}

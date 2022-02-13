@@ -1,0 +1,285 @@
+{% extends "backend/base.html" %}
+{% load static %}
+{% block content %}
+<div class="nk-block-head nk-block-head-sm">
+	<div class="nk-block-between">
+		<div class="nk-block-head-content">
+			<h3 class="nk-block-title page-title">Tambah Data Master</h3>
+			<div class="nk-block-des text-soft">
+				<p></p>
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class="nk-block">
+	<div class="card card-preview">
+		<div class="card-inner">
+			<ul class="nav nav-tabs mt-n3">
+				<li class="nav-item">
+					<a class="nav-link " data-toggle="tab" href="#tabManual"><em class="icon ni ni-user"></em><span>Input Manual</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" data-toggle="tab" href="#tabExcel"><em class="icon ni ni-lock-alt"></em><span>Input Excel</span></a>
+				</li>
+
+
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane " id="tabManual">
+					<form id="form-tambah-manual" onsubmit="return false;">
+						{% csrf_token %}
+						<div class="row gy-4">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">CLUMP THICKNESS</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-clump_thickness" name="input-manual-clump_thickness" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">Uniformity of Cell Size</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-uniformity_of_cell_size" name="input-manual-uniformity_of_cell_size" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">UNIFORMITY OF CELL SHAPE</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-uniformity_of_cell_shape" name="input-manual-uniformity_of_cell_shape" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">MARGINAL ADHESION</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-marginal_adhesion" name="input-manual-marginal_adhesion" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">Single Epithelial Cell Size</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-single_epithelial_cell_size" name="input-manual-single_epithelial_cell_size" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">BARE NUCLEI</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-bare_nuclei" name="input-manual-bare_nuclei" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">Bland Chromatin</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-bland_chromatin" name="input-manual-bland_chromatin" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">Normal Nucleoli</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-normal_nucleoli" name="input-manual-normal_nucleoli" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">MITOSES</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-mitoses" name="input-manual-mitoses" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-label" for="default-01">CLASS</label>
+									<div class="form-control-wrap">
+										<input type="number" class="form-control input-manual"  id="input-manual-kelas" name="input-manual-kelas" placeholder="" required>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<button type="submit" class="btn btn-primary">Simpan data</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="tab-pane active" id="tabExcel">
+					<div class="card card-bordered h-100">
+						<div class="card-inner">
+							<div class="card-head">
+								<h5 class="card-title">Form Import Data</h5>
+							</div>
+							<form>
+								<div class="form-group">
+									<label class="form-label" for="cf-full-name"></label>
+									<input type="file" name="input-file-excel" id="input-file-excel" >
+								</div>
+								
+								<div class="form-group">
+									<button type="button" class="btn btn-lg btn-primary" id="btn-import">Import Data</button>
+
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="hide-me" style="display: none">
+
+						<div class="card card-bordered h-100">
+							<div class="card-inner">
+								<table class="nowrap table" id="table-import" >
+									<thead>
+										<tr>
+											<th>CLUMP THICKNESS</th>
+											<th>Uniformity of Cell Size</th>
+											<th>Uniformity of Cell Shape</th>
+											<th>Marginal Adhesion    </th>
+											<th>Single Epithelial Cell Size</th>
+											<th>Bare Nuclei</th>
+											<th>Bland Chromatin </th>
+											<th>Normal Nucleoli</th>
+											<th>Mitoses</th>
+											<th>CLASS</th>
+										</tr>
+									</thead>
+
+								</table>
+							</div>
+						</div>
+
+						
+					</div>
+
+					
+
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+{% block export-js %}
+<script src="{% static 'plugins/sheetjs/dist/xlsx.full.min.js' %}"></script>
+
+{% endblock export-js %}
+{% block js %}
+<script>
+
+	$("#form-tambah-manual").submit(function(event) {
+		event.preventDefault();
+		var URL = "{% url 'lvq/proses_tambah_data_awal' %}";
+		var data = new FormData($(this)[0]);
+		console.log(data);
+		showSpinner();
+
+		axios.post(URL, data)
+		.then((res) => {
+			data = res.data;
+			window.location.href= '{% url "lvq/inisialisasi_data_awal" %}';
+		})
+		.catch(() => {
+
+		})
+		.then(() => {
+			hideSpinner();
+
+		})
+
+	});
+
+	var json_object = '';
+	$("#btn-import").click(function(event) {
+
+		var selectedFile = $("#input-file-excel")[0].files[0];
+		if (!selectedFile) {
+			Swal.fire("Gagal!", "Mohon pilih file terlebih dahulu!", "error")
+			return;
+
+		}
+		showSpinner();
+		var reader = new FileReader();
+		reader.onload = function(event) {
+			var data = event.target.result;
+			var workbook = XLSX.read(data, {
+				type: 'binary'
+			});
+
+			workbook.SheetNames.forEach(function(sheetName) {
+
+				var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+				json_object  = (XL_row_object);
+			})
+			$(".hide-me").hide();
+
+			var URL = '{% url "lvq/proses_import_data_awal" %}';
+			axios.post(URL, json_object)
+			.then((res) => {
+				data = res.data;
+				if (data.success) {
+					$dTableImport.clear();
+					$dTableImport.rows.add(json_object);
+					$dTableImport.draw();
+					$(".hide-me").show();
+					Swal.fire({
+						title: 'Berhasil',
+						text: "Berhasil import data master!" + id,
+						showConfirmButton: false,
+						timer: 2000,
+						icon: 'success',
+
+					});
+				}
+
+			})
+			.catch(() => {
+
+			})
+			.then(() => {
+				$("#input-file-excel").val('');
+				hideSpinner();
+			});
+
+
+		};
+		reader.onerror = function(event) {
+			console.error("File tidak bisa diimport Code " + event.target.error.code);
+		};
+		reader.readAsBinaryString(selectedFile);
+
+	});
+
+	var $dTableImport = makeDataTable('#table-import', {
+		"scrollX": true,
+		"responsive": false,
+		"columns": [
+		{ "data": "clump_thickness" },
+		{ "data": "uniformity_of_cell_size" },
+		{ "data": "uniformity_of_cell_shape" },
+		{ "data": "marginal_adhesion" },
+		{ "data": "single_epithelial_cell_size" },
+		{ "data": "bare_nuclei" },
+		{ "data": "bland_chromatin" },
+		{ "data": "normal_nucleoli" },
+		{ "data": "mitoses" },
+		{ "data": "CLASS" },
+		],
+	});
+
+</script>
+{% endblock js %}
